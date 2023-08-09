@@ -218,7 +218,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
     super.initState();
 
     if (widget.onTimeChange != null) {
-      WidgetsBinding.instance!
+      WidgetsBinding.instance
           .addPostFrameCallback((_) => widget.onTimeChange!(getDateTime()));
     }
   }
@@ -228,7 +228,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
     // print(minuteController.offset);
     List<Widget> contents = [
       SizedBox(
-        width: _getItemWidth(),
+        width: _getItemWidth()! * .72,
         height: _getItemHeight()! * 3,
         child: spinner(
           hourController,
@@ -243,9 +243,11 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
           () => isHourScrolling = false,
         ),
       ),
-      spacer(),
+      const SizedBox(width: 2),
+      Text(':', style: Theme.of(context).textTheme.titleLarge),
+      const SizedBox(width: 2),
       SizedBox(
-        width: _getItemWidth(),
+        width: _getItemWidth()! * .72,
         height: _getItemHeight()! * 3,
         child: spinner(
           minuteController,
@@ -263,9 +265,7 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
     ];
 
     if (widget.isShowSeconds) {
-      contents.add(spacer());
       contents.add(SizedBox(
-        width: _getItemWidth(),
         height: _getItemHeight()! * 3,
         child: spinner(
           secondController,
@@ -283,9 +283,8 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
     }
 
     if (!widget.is24HourMode) {
-      contents.add(spacer());
       contents.add(SizedBox(
-        width: _getItemWidth()! * 1.2,
+        width: _getItemWidth(),
         height: _getItemHeight()! * 3,
         child: apSpinner(),
       ));
@@ -295,13 +294,6 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: contents,
-    );
-  }
-
-  Widget spacer() {
-    return Container(
-      width: _getSpacing(),
-      height: _getItemHeight()! * 3,
     );
   }
 
