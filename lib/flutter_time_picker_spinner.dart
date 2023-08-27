@@ -342,37 +342,40 @@ class _TimePickerSpinnerState extends State<TimePickerSpinner> {
         }
         return true;
       },
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          String text = '';
-          if (isLoop(max)) {
-            text = ((index % max) * interval).toString();
-          } else if (index != 0 && index != max + 1) {
-            text = (((index - 1) % max) * interval).toString();
-          }
-          if (!widget.is24HourMode &&
-              controller == hourController &&
-              text == '0') {
-            text = '12';
-          }
-          if (widget.isForce2Digits && text != '') {
-            text = text.padLeft(2, '0');
-          }
-          return Container(
-            height: _getItemHeight(),
-            alignment: _getAlignment(),
-            child: Text(
-              text,
-              style: selectedIndex == index
-                  ? _getHighlightedTextStyle()
-                  : _getNormalTextStyle(),
-            ),
-          );
-        },
-        controller: controller,
-        itemCount: isLoop(max) ? max * 3 : max + 2,
-        physics: ItemScrollPhysics(itemHeight: _getItemHeight()),
-        padding: EdgeInsets.zero,
+      child: ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            String text = '';
+            if (isLoop(max)) {
+              text = ((index % max) * interval).toString();
+            } else if (index != 0 && index != max + 1) {
+              text = (((index - 1) % max) * interval).toString();
+            }
+            if (!widget.is24HourMode &&
+                controller == hourController &&
+                text == '0') {
+              text = '12';
+            }
+            if (widget.isForce2Digits && text != '') {
+              text = text.padLeft(2, '0');
+            }
+            return Container(
+              height: _getItemHeight(),
+              alignment: _getAlignment(),
+              child: Text(
+                text,
+                style: selectedIndex == index
+                    ? _getHighlightedTextStyle()
+                    : _getNormalTextStyle(),
+              ),
+            );
+          },
+          controller: controller,
+          itemCount: isLoop(max) ? max * 3 : max + 2,
+          physics: ItemScrollPhysics(itemHeight: _getItemHeight()),
+          padding: EdgeInsets.zero,
+        ),
       ),
     );
 
